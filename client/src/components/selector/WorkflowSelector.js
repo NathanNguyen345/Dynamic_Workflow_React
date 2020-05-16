@@ -1,17 +1,12 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 function WorkflowSelector() {
-  const [workflows, setWorkflows] = useState([]);
-
   return (
     <div className="jumbotron">
       <div className="form-group">
         <label>Work Flow Selector</label>
-        <select>
-          <option>1</option>
-          <option>1</option>
-          <option>1</option>
-        </select>
+        <select></select>
       </div>
     </div>
   );
