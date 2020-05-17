@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 
-function Cc({ value }) {
+function Fields({ value }) {
   const [userInput, setUserInput] = useState("");
   const emailRef = useRef(null);
 
   // On mount assign all values to recipients
-  // Should be able to strip this out and make it abstract
+  // Should be able to strip this out and back it abstract
   useEffect(() => {
     emailRef.current.defaultValue = value.defaultValue;
     setUserInput(value.defaultValue);
@@ -18,10 +18,10 @@ function Cc({ value }) {
 
   return (
     <div>
-      <h3>{value.label}</h3>
+      <h3>{value.displayName}</h3>
       <input type="text" ref={emailRef} onChange={handleEmailChange}></input>
     </div>
   );
 }
 
-export default Cc;
+export default Fields;
