@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Recipients from "./Recipients";
-import Cc from "./Cc";
-import DocumentName from "./DocumentName";
-import Messages from "./Messages";
-import Files from "./Files";
-import Fields from "./Fields";
-import Password from "./Password";
+import Recipients from "./recipients/Recipients";
+import Cc from "./recipients/Cc";
+import DocumentName from "./information/agreement/DocumentName";
+import Messages from "./information/agreement/Messages";
+import Files from "./information/agreement/Files";
+import Fields from "./information/agreement/Fields";
 
 function WorkflowForm({ id, click }) {
   const [workflowById, setWorkflowById] = useState([]);
@@ -81,12 +80,6 @@ function WorkflowForm({ id, click }) {
     }
   };
 
-  const renderPassword = () => {
-    if (isLoaded && workflowById.passwordInfo.visible) {
-      return <Password value={workflowById.passwordInfo} />;
-    }
-  };
-
   return (
     <div>
       <form>
@@ -100,7 +93,6 @@ function WorkflowForm({ id, click }) {
         {renderMessages()}
         {renderFiles()}
         {renderFields()}
-        {renderPassword()}
         {isLoaded && <button type="button">Submit</button>}
       </form>
     </div>
