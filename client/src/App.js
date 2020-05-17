@@ -4,7 +4,7 @@ import WorkflowSelector from "./components/selector/WorkflowSelector";
 
 function App() {
   return (
-    <div className="App">
+    <div className="App container h-100">
       <WorkflowSelector />
     </div>
   );

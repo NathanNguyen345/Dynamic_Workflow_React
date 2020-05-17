@@ -6,6 +6,7 @@ function WorkflowSelector() {
   const [workflows, setWorkflows] = useState([]);
   const [id, setId] = useState("");
   const selectRef = useRef(null);
+  const [submit, setSubmit] = useState(false);
 
   // Call Express API to retreive workflows run on mount
   useEffect(() => {
@@ -55,6 +56,8 @@ function WorkflowSelector() {
         </div>
         <button>Select</button>
       </form>
+
+      {submit && <WorkflowForm id={id} />}
     </div>
   );
 }
