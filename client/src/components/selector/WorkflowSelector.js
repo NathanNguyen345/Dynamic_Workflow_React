@@ -1,48 +1,33 @@
-import React, { useState, useEffect, useRef } from "react";
-import axios from "axios";
+import React, { useState, useRef } from "react";
 import WorkflowForm from "../form/WorkflowForm";
 
-function WorkflowSelector() {
-  const [workflows, setWorkflows] = useState([]);
-  const [id, setId] = useState("");
-  const selectRef = useRef(null);
-  const [submit, setSubmit] = useState(false);
-
-  // Call Express API to retreive workflows run on mount
-  useEffect(() => {
-    selectRef.current.focus();
-    axios
-      .get("/api/getWorkflows")
-      .then((response) => {
-        setWorkflows(response.data["userWorkflowList"]);
-        setId(response.data["userWorkflowList"][0]["workflowId"]);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
+function WorkflowSelector(props) {
+  const [id, setId] = useState(props.workflows[0].workflowId);
+  const selectRef = useRef("");
+  const [click, setClick] = useState(0);
+  const [viewForm, setViewForm] = useState(false);
 
   // Map all workflows to options for selection
-  const mapWorkflows = workflows.map((workflow) => (
+  const mapWorkflows = props.workflows.map((workflow) => (
     <option key={workflow.workflowId} value={workflow.workflowId}>
       {workflow.displayName}
     </option>
   ));
 
-  // Handle onChange of selection
+  // Select handler for option change
   const handleSelectChange = (e) => {
     setId(e.target.value);
   };
 
-  // Handle the submit button
-  const submitHandler = (e) => {
-    e.preventDefault();
-    setSubmit(true);
+  // Button
+  const clickHandler = () => {
+    setClick((prevClick) => prevClick + 1);
+    setViewForm(true);
   };
 
   return (
     <div className="jumbotron">
-      <form onSubmit={submitHandler}>
+      <form>
         <div className="form-group">
           <label>Work Flow Selector</label>
           <select
@@ -54,10 +39,11 @@ function WorkflowSelector() {
             {mapWorkflows}
           </select>
         </div>
-        <button>Select</button>
+        <button type="button" onClick={clickHandler}>
+          Select
+        </button>
       </form>
-
-      {submit && <WorkflowForm id={id} />}
+      <div>{viewForm && <WorkflowForm id={id} click={click} />}</div>
     </div>
   );
 }

@@ -1,15 +1,15 @@
 import React, { useState, useEffect, useRef } from "react";
 
-function Cc(props) {
+function Cc({ value }) {
   const [userInput, setUserInput] = useState("");
   const emailRef = useRef(null);
 
   // On mount assign all values to recipients
-  // Should be able to strip this out and back it abstract
+  // Should be able to strip this out and make it abstract
   useEffect(() => {
-    emailRef.current.defaultValue = props.value.defaultValue;
-    setUserInput(props.value.defaultValue);
-  }, []);
+    emailRef.current.defaultValue = value.defaultValue;
+    setUserInput(value.defaultValue);
+  }, [value]);
 
   // Handle email change
   const handleEmailChange = (e) => {
@@ -18,9 +18,9 @@ function Cc(props) {
 
   return (
     <div>
-      {console.log(props)}
-      <h3>{props.value.label}</h3>
+      <h3>{value.label}</h3>
       <input type="text" ref={emailRef} onChange={handleEmailChange}></input>
+      {userInput}
     </div>
   );
 }
