@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import WorkflowForm from "../form/WorkflowForm";
+import WorkflowForm from "./WorkflowForm";
 
 function WorkflowSelector(props) {
   const [id, setId] = useState(props.workflows[0].workflowId);
