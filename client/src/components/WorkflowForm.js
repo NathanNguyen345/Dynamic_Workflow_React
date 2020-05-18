@@ -28,18 +28,18 @@ const reducer = (state, action) => {
   switch (action.type) {
     case "fileInfos":
       state.fileInfos[action.id] = action.value;
-      return state;
+      return { ...state };
     case "name":
       return { ...state, name: action.value };
     case "recipientsListInfo":
       state.recipientsListInfo[action.id] = action.value;
-      return state;
+      return { ...state };
     case "ccs":
       state.ccs[action.id] = action.value;
       return { ...state };
     case "securityOptions":
       state.securityOptions[action.id] = action.value;
-      return state;
+      return { ...state };
     case "mergeFieldInfo":
       state.mergeFieldInfo[action.id] = action.value;
       return { ...state };
@@ -93,7 +93,11 @@ function WorkflowForm({ id, click }) {
         isLoaded &&
         "ccsListInfo" in workflowById &&
         workflowById.ccsListInfo.map((recipient, index) => (
-          <Cc key={index} value={workflowById.ccsListInfo[index]}></Cc>
+          <Cc
+            key={index}
+            ccId={index}
+            value={workflowById.ccsListInfo[index]}
+          ></Cc>
         ))
       );
     }
@@ -148,6 +152,11 @@ function WorkflowForm({ id, click }) {
       return <Reminders />;
     }
   };
+
+  // // Handle email change
+  // const handleDocumentNameChange = (e) => {
+  //   dispatch({ type: "name", value: userInput });
+  // };
 
   return (
     <JsonConext.Provider value={{ jsonState: jsonAPI, jsonDispatch: dispatch }}>

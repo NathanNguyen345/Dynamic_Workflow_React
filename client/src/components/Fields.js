@@ -13,12 +13,12 @@ function Fields({ value, fieldId }) {
     setUserInput(value.defaultValue);
   }, [value]);
 
-  // Handle email change
+  // Handle field name change
   const handleEmailChange = (e) => {
     setUserInput(e.target.value);
     jsonContext.jsonDispatch({
       type: "mergeFieldInfo",
-      value: userInput,
+      value: e.target.value,
       id: fieldId,
     });
   };

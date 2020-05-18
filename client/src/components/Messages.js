@@ -1,19 +1,22 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
+import { JsonConext } from "./WorkflowForm";
 
 function Messages({ value }) {
-  const [userInput, setUserInput] = useState("");
+  const [userInput, setUserInput] = useState(value.defaultValue);
   const targetRef = useRef(null);
+  const jsonContext = useContext(JsonConext);
 
   // On mount assign all values to recipients
   // Should be able to strip this out and back it abstract
   useEffect(() => {
     targetRef.current.defaultValue = value.defaultValue;
-    setUserInput(value.defaultValue);
-  }, [value]);
+    jsonContext.jsonDispatch({ type: "message", value: userInput });
+  }, []);
 
   // Handle email change
   const handleDocumentNameChange = (e) => {
     setUserInput(e.target.value);
+    jsonContext.jsonDispatch({ type: "message", value: e.target.value });
   };
 
   return (
@@ -22,6 +25,7 @@ function Messages({ value }) {
       <input
         type="text"
         ref={targetRef}
+        placeholder="Please Enter A Message"
         onChange={handleDocumentNameChange}
       ></input>
     </div>

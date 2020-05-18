@@ -11,19 +11,20 @@ function DocumentName({ value }) {
   useEffect(() => {
     targetRef.current.defaultValue = value.defaultValue;
     setUserInput(value.defaultValue);
-  }, [value]);
+  }, []);
+
   // Handle email change
   const handleDocumentNameChange = (e) => {
+    jsonContext.jsonDispatch({ type: "name", value: e.target.value });
     setUserInput(e.target.value);
-    jsonContext.jsonDispatch({ type: "name", value: userInput });
   };
 
   return (
     <div>
       <h3>Document Name</h3>
-      <h2>{userInput}</h2>
       <input
         type="text"
+        placeholder="Please Enter A Document Name"
         ref={targetRef}
         onChange={handleDocumentNameChange}
       ></input>
