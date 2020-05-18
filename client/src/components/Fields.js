@@ -1,8 +1,10 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
+import { JsonConext } from "./WorkflowForm";
 
-function Fields({ value }) {
+function Fields({ value, fieldId }) {
   const [userInput, setUserInput] = useState("");
   const emailRef = useRef(null);
+  const jsonContext = useContext(JsonConext);
 
   // On mount assign all values to recipients
   // Should be able to strip this out and back it abstract
@@ -14,6 +16,11 @@ function Fields({ value }) {
   // Handle email change
   const handleEmailChange = (e) => {
     setUserInput(e.target.value);
+    jsonContext.jsonDispatch({
+      type: "mergeFieldInfo",
+      value: userInput,
+      id: fieldId,
+    });
   };
 
   return (

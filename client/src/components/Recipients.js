@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 
-function Recipients({ value }) {
+// Check renders, being rendered twice
+
+function Recipients({ value, recipientsId }) {
   const [userInput, setUserInput] = useState("");
   const emailRef = useRef(null);
 
