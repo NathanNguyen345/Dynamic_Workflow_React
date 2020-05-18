@@ -7,6 +7,8 @@ import Messages from "./Messages";
 import Files from "./Files";
 import Fields from "./Fields";
 import Password from "./Password";
+import Deadline from "./Deadline";
+import Reminders from "./Reminders";
 
 function WorkflowForm({ id, click }) {
   const [workflowById, setWorkflowById] = useState([]);
@@ -87,6 +89,18 @@ function WorkflowForm({ id, click }) {
     }
   };
 
+  const renderDeadline = () => {
+    if (isLoaded && "expirationInfo" in workflowById) {
+      return <Deadline value={workflowById.expirationInfo} />;
+    }
+  };
+
+  const renderReminders = () => {
+    if (isLoaded) {
+      return <Reminders />;
+    }
+  };
+
   return (
     <div>
       <form>
@@ -101,6 +115,8 @@ function WorkflowForm({ id, click }) {
         {renderFiles()}
         {renderFields()}
         {renderPassword()}
+        {renderDeadline()}
+        {renderReminders()}
         {isLoaded && <button type="button">Submit</button>}
       </form>
     </div>
