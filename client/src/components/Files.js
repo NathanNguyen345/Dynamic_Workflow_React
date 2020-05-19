@@ -1,28 +1,62 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import axios from "axios";
+import { JsonConext } from "./WorkflowForm";
 
-function Files({ value }) {
-  const [documentKey, setDocumentKey] = useState("");
+function Files({ value, fileId }) {
   const targetRef = useRef(null);
+  const jsonContext = useContext(JsonConext);
 
-  const [fileName, setFileName] = useState("");
-
-  // On mount assign all values to recipients
-  // Should be able to strip this out and back it abstract
   useEffect(() => {
-    setDocumentKey(value.defaultValue);
-    console.log(value);
-  }, [value]);
+    if ("workflowLibraryDocumentSelectorList" in value) {
+      jsonContext.jsonDispatch({
+        type: "fileInfos",
+        value: {
+          label: value.label,
+          libraryDocumentId:
+            value.workflowLibraryDocumentSelectorList[0].workflowLibDoc,
+        },
+        id: fileId,
+      });
+    }
+  }, []);
 
+  // Need to test for file clearing
   // Handle document change change
-  const handleDocumentChange = (e) => {
-    setDocumentKey(e.target.value);
+  const handleDocumentChange = async (e) => {
+    const data = new FormData();
+    data.append("file", e.target.files[0]);
 
-    setFileName(e.target.files[0].name);
+    await axios
+      .post("/api/postTransient", data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          jsonContext.jsonDispatch({
+            type: "fileInfos",
+            value: { label: value.label, transientDocumentId: response.data },
+            id: fileId,
+          });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const checkForLibraryDocument = () => {
     if ("workflowLibraryDocumentSelectorList" in value) {
+      jsonContext.jsonDispatch({
+        type: "fileInfos",
+        value: {
+          label: value.label,
+          libraryDocumentId:
+            value.workflowLibraryDocumentSelectorList[0].workflowLibDoc,
+        },
+        id: fileId,
+      });
       return <h4>{value.workflowLibraryDocumentSelectorList[0].label}</h4>;
     } else {
       return (

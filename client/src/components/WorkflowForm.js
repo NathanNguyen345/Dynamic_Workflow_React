@@ -9,6 +9,7 @@ import Fields from "./Fields";
 import Password from "./Password";
 import Deadline from "./Deadline";
 import Reminders from "./Reminders";
+import Test from "./Test";
 
 export const JsonConext = React.createContext();
 
@@ -118,7 +119,11 @@ function WorkflowForm({ id, click }) {
   const renderFiles = () => {
     if (isLoaded) {
       return workflowById.fileInfos.map((file, index) => (
-        <Files key={index} value={workflowById.fileInfos[index]} />
+        <Files
+          key={index}
+          fileId={index}
+          value={workflowById.fileInfos[index]}
+        />
       ));
     }
   };

@@ -9,8 +9,7 @@ const path = require("path");
 
 // FormData, Multer, & Uploads
 const FormData = require("form-data");
-const multer = require("multer");
-const upload = multer({ dest: "uploads/" });
+const fileUpload = require("express-fileupload");
 
 // YAML & Configuration
 const yaml = require("js-yaml");
@@ -27,6 +26,8 @@ var url = host + endpoint;
 var headers = {
   "Access-Token": integration,
 };
+
+app.use(fileUpload());
 
 // GET /workflows
 app.get("/api/getWorkflows", (req, res) => {
@@ -69,26 +70,30 @@ app.post("/api/postAgreement/:id", (req, res) => {
 
 // Need to double check once container is built
 // POST /transientDocuments
-app.post("/api/postTransient", upload.single("myfile"), (req, res) => {
+app.post("/api/postTransient", async (req, res) => {
+  if (req.files === null) {
+    return res.status(400).json({ msg: "No file uploaded" });
+  }
   const path = url + "/transientDocuments";
+  const file = req.files.file;
+  const form = new FormData();
+  form.append("File-Name", file.name);
+  form.append("Mime-Type", file.mimetype);
+  form.append("File", file.data);
 
-  // Create FormData
-  var form = new FormData();
-  form.append("File-Name", req.file.originalname);
-  form.append("Mime-Type", req.file.mimetype);
-  form.append("File", fs.createReadStream(req.file.path));
-
-  axios
-    .post(path, { headers: headers })
-    .then((response) => res.status(200).send(response.data))
-    .catch((error) => console.log(error));
-
-  // Delete uploaded doc after transient call
-  fs.unlink(req.file.path, function (err) {
-    if (err) return console.log(err);
-  });
-
-  res.json(data);
+  axios({
+    method: "post",
+    url: path,
+    headers: {
+      "Access-Token": integration,
+      "content-type": `multipart/form-data; boundary=${form._boundary}`,
+    },
+    data: form,
+  })
+    .then((response) => res.status(200).send(response.data.transientDocumentId))
+    .catch((error) => {
+      res.status(error.response.status).send(error.response.data);
+    });
 });
 
 const port = 5000;
