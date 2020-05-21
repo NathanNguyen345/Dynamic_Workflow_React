@@ -1,25 +1,24 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import { JsonConext } from "./WorkflowSelector";
 
-function DocumentName({ value }) {
+function DocumentName() {
   const targetRef = useRef(null);
   const jsonContext = useContext(JsonConext);
+  const reduceState = jsonContext.jsonState["name"];
 
   // On mount assign all values to recipients
   useEffect(() => {
-    targetRef.current.defaultValue = jsonContext.jsonState["name"];
-  }, [jsonContext.jsonState["name"]]);
+    targetRef.current.defaultValue = reduceState;
+  }, [reduceState]);
 
   // Handle email change
   const handleDocumentNameChange = (e) => {
-    setDocumentName(e.target.value);
     jsonContext.jsonDispatch({ type: "name", value: e.target.value });
   };
 
   return (
     <div>
       <h3>Document Name</h3>
-      <h3>{jsonContext.jsonState["name"]}</h3>
       <input
         id="agreement-name"
         type="text"

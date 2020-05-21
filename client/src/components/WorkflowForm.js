@@ -20,7 +20,7 @@ function WorkflowForm({ id, loaded }) {
   // Can use custom hook to reduce this down
   // Function to render recipients component
   const renderRecipients = () => {
-    if (isLoaded) {
+    if (length) {
       return id.recipientsListInfo.map((recipient, index) => (
         <Recipients
           key={index}
@@ -86,20 +86,19 @@ function WorkflowForm({ id, loaded }) {
 
   return (
     <div>
-      <form>
-        <h3 id="workflow-description">{jsonContext.jsonState["message"]}</h3>
+      <form id="form-bottom">
+        <h3 id="workflow-description">{id.description}</h3>
         {/* Might want to refractor this to top form */}
-        {/* {renderRecipients()}
-        {renderCCs()} */}
+        {renderRecipients()}
+        {/* {renderCCs()} */}
         {/* Refractor to bottom form */}
-        {/* {renderDocumentName()} */}
-        {length && <DocumentName value={id.agreementNameInfo} />}
-        {/* {renderMessages()}
-        {renderFiles()}
-        {renderFields()}
-        {renderPassword()}
-        {renderDeadline()}
-        {renderReminders()} */}
+        {length && <DocumentName />}
+        {length && <Messages />}
+        {/* // {renderFiles()}
+        // {renderFields()}
+        // {renderPassword()}
+        // {renderDeadline()}
+        // {renderReminders()} } */}
         {isLoaded && <button type="button">Submit</button>}
       </form>
     </div>

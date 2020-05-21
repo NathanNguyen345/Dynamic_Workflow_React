@@ -85,12 +85,38 @@ function WorkflowSelector(props) {
           type: "message",
           value: response.data.messageInfo.defaultValue,
         });
+        response.data.recipientsListInfo.map((recipient, index) => {
+          dispatch({
+            type: "recipientsListInfo",
+            value: response.data.recipientsListInfo[index].defaultValue,
+            id: index,
+          });
+        });
+
+        if ("ccsListInfo" in response.data) {
+          response.data.ccsListInfo.map((recipient, index) => {
+            dispatch({
+              type: "ccs",
+              value: response.data.ccsListInfo[index].defaultValue,
+              id: index,
+            });
+          });
+        } else {
+          jsonAPI["ccs"].filter((email) => email.length > 0);
+        }
+        // console.log(response.data.recipientsListInfo);
       })
       .catch((error) => {
         console.log(error);
       });
 
-    setViewForm(true);
+    if (viewForm === false) {
+      setViewForm(true);
+    } else {
+      setViewForm(false);
+      document.getElementById("form-bottom").reset();
+      setViewForm(true);
+    }
   };
 
   return (
