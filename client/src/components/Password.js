@@ -1,13 +1,16 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
+import { JsonConext } from "./WorkflowSelector";
 
 function Password({ value }) {
   const [password, setPassword] = useState("");
   const [confirmedPassword, setConfirmedPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [validPassword, setValidPassword] = useState(true);
-  const [required, setRequired] = useState(value.required);
   const [toggleView, setToggleView] = useState(value.required);
   const requiredRef = useRef(null);
+  const required = value.required;
+
+  const jsonContext = useContext(JsonConext);
 
   // Check to see if password is required on render
   useEffect(() => {
@@ -16,14 +19,27 @@ function Password({ value }) {
       requiredRef.current.disabled = true;
       setToggleView(true);
     }
-  }, []);
+  }, [required]);
 
   // Use effect to handle password change and display valid password
+  // Need to check for required
   useEffect(() => {
     if (password === confirmedPassword) {
       setValidPassword(true);
-    } else setValidPassword(false);
-  }, [password, confirmedPassword]);
+      jsonContext.jsonDispatch({
+        type: "securityOptions",
+        value: password,
+        id: "openPassword",
+      });
+    } else {
+      setValidPassword(false);
+      jsonContext.jsonDispatch({
+        type: "securityOptions",
+        value: "",
+        id: "openPassword",
+      });
+    }
+  }, [password, confirmedPassword, jsonContext]);
 
   // Toggle between password view
   const showToggle = () => {

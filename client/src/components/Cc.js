@@ -1,25 +1,18 @@
-import React, { useState, useEffect, useRef, useContext } from "react";
+import React, { useEffect, useRef, useContext } from "react";
 import { JsonConext } from "./WorkflowSelector";
 
 function Cc({ value, ccId }) {
-  const [userInput, setUserInput] = useState(value.defaultValue);
   const emailRef = useRef(null);
   const jsonContext = useContext(JsonConext);
+  const reduceState = jsonContext.jsonState["ccs"][ccId];
 
   // On mount assign all values to recipients
-  // Should be able to strip this out and make it abstract
   useEffect(() => {
-    emailRef.current.defaultValue = value.defaultValue;
-    jsonContext.jsonDispatch({
-      type: "ccs",
-      value: userInput,
-      id: ccId,
-    });
-  }, []);
+    emailRef.current.defaultValue = reduceState;
+  }, [reduceState]);
 
   // Handle email change
   const handleEmailChange = (e) => {
-    setUserInput(e.target.value);
     jsonContext.jsonDispatch({
       type: "ccs",
       value: e.target.value,

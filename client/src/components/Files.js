@@ -1,27 +1,12 @@
-import React, { useState, useEffect, useRef, useContext } from "react";
+import React, { useRef, useContext } from "react";
 import axios from "axios";
 import { JsonConext } from "./WorkflowSelector";
 
 function Files({ value, fileId }) {
   const targetRef = useRef(null);
   const jsonContext = useContext(JsonConext);
+  const reduceState = jsonContext.jsonState["fileInfos"][fileId];
 
-  // Update reducer if there's already a library key
-  useEffect(() => {
-    if ("workflowLibraryDocumentSelectorList" in value) {
-      jsonContext.jsonDispatch({
-        type: "fileInfos",
-        value: {
-          label: value.label,
-          libraryDocumentId:
-            value.workflowLibraryDocumentSelectorList[0].workflowLibDoc,
-        },
-        id: fileId,
-      });
-    }
-  }, []);
-
-  // Need to test for file clearing
   // Handle document change change
   const handleDocumentChange = async (e) => {
     const data = new FormData();
@@ -35,9 +20,13 @@ function Files({ value, fileId }) {
       })
       .then((response) => {
         if (response.status === 200) {
+          const formData = {
+            name: reduceState.name,
+            transientDocumentId: response.data,
+          };
           jsonContext.jsonDispatch({
             type: "fileInfos",
-            value: { label: value.label, transientDocumentId: response.data },
+            value: formData,
             id: fileId,
           });
         }

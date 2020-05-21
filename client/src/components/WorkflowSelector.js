@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  useRef,
-  useReducer,
-  useEffect,
-  cloneElement,
-} from "react";
+import React, { useState, useRef, useReducer } from "react";
 import axios from "axios";
 import WorkflowForm from "./WorkflowForm";
 
@@ -16,7 +10,7 @@ const initalState = {
   recipientsListInfo: [],
   ccs: [],
   securityOptions: {},
-  mergeFieldInfo: [],
+  mergeFieldsInfo: [],
   daysUntilSigningDeadline: "",
   reminderFrequency: "",
   message: "",
@@ -38,8 +32,8 @@ const reducer = (state, action) => {
     case "securityOptions":
       state.securityOptions[action.id] = action.value;
       return { ...state };
-    case "mergeFieldInfo":
-      state.mergeFieldInfo[action.id] = action.value;
+    case "mergeFieldsInfo":
+      state.mergeFieldsInfo[action.id] = action.value;
       return { ...state };
     case "daysUntilSigningDeadline":
       return { ...state, daysUntilSigningDeadline: action.value };
@@ -49,6 +43,8 @@ const reducer = (state, action) => {
       return { ...state, message: action.value };
     case "reset":
       return { ...state };
+    default:
+      return;
   }
 };
 
@@ -77,15 +73,18 @@ function WorkflowSelector(props) {
       .get(`/api/getWorkflows/${id}`)
       .then((response) => {
         setWorkflowById(response.data);
+        console.log(response.data);
         dispatch({
           type: "name",
           value: response.data.agreementNameInfo.defaultValue,
         });
+
         dispatch({
           type: "message",
           value: response.data.messageInfo.defaultValue,
         });
-        response.data.recipientsListInfo.map((recipient, index) => {
+
+        response.data.recipientsListInfo.foreach((recipient, index) => {
           dispatch({
             type: "recipientsListInfo",
             value: response.data.recipientsListInfo[index].defaultValue,
@@ -94,7 +93,7 @@ function WorkflowSelector(props) {
         });
 
         if ("ccsListInfo" in response.data) {
-          response.data.ccsListInfo.map((recipient, index) => {
+          response.data.ccsListInfo.foreach((recipient, index) => {
             dispatch({
               type: "ccs",
               value: response.data.ccsListInfo[index].defaultValue,
@@ -103,6 +102,57 @@ function WorkflowSelector(props) {
           });
         } else {
           jsonAPI["ccs"].filter((email) => email.length > 0);
+        }
+
+        response.data.fileInfos.foreach((file, index) => {
+          var fileData = {
+            name: "",
+            workflowLibraryDocumentId: "",
+            transientDocumentId: "",
+          };
+
+          if ("workflowLibraryDocumentSelectorList" in file) {
+            fileData = {
+              name: file.label,
+              workflowLibraryDocumentId:
+                file.workflowLibraryDocumentSelectorList[0].workflowLibDoc,
+            };
+          } else {
+            fileData = {
+              name: file.label,
+              transientDocumentId: "",
+            };
+          }
+          dispatch({
+            type: "fileInfos",
+            value: fileData,
+            id: index,
+          });
+        });
+
+        if ("mergeFieldsInfo" in response.data) {
+          response.data.mergeFieldsInfo.foreach((field, index) => {
+            const mergeData = {
+              defaultValue: field.defaultValue,
+              fieldName: field.fieldName,
+            };
+            dispatch({
+              type: "mergeFieldsInfo",
+              value: mergeData,
+              id: index,
+            });
+          });
+        } else {
+          console.log("no merge");
+          jsonAPI["mergeFieldsInfo"].filter((field) => field.length >= 0);
+        }
+
+        if ("passwordInfo" in response.data) {
+          dispatch({
+            type: "securityOptions",
+            value: response.data.passwordInfo.defaultValue,
+            id: "openPassword",
+          });
         }
         // console.log(response.data.recipientsListInfo);
       })

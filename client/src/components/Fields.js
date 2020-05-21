@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useContext } from "react";
+import React, { useEffect, useRef, useContext } from "react";
 import { JsonConext } from "./WorkflowSelector";
 
 function Fields({ value, fieldId }) {
@@ -6,16 +6,20 @@ function Fields({ value, fieldId }) {
   const jsonContext = useContext(JsonConext);
 
   // On mount assign all values to recipients
-  // Should be able to strip this out and back it abstract
   useEffect(() => {
     emailRef.current.defaultValue = value.defaultValue;
   }, [value]);
 
   // Handle field name change
   const handleEmailChange = (e) => {
+    const mergeData = {
+      defaultValue: e.target.value,
+      fieldName: value.fieldName,
+    };
+
     jsonContext.jsonDispatch({
-      type: "mergeFieldInfo",
-      value: e.target.value,
+      type: "mergeFieldsInfo",
+      value: mergeData,
       id: fieldId,
     });
   };
