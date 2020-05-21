@@ -68,12 +68,13 @@ app.post("/api/postAgreement/:id", (req, res) => {
   res.json(data);
 });
 
-// Need to double check once container is built
 // POST /transientDocuments
 app.post("/api/postTransient", async (req, res) => {
   if (req.files === null) {
     return res.status(400).json({ msg: "No file uploaded" });
   }
+
+  // Create Form data for API POST
   const path = url + "/transientDocuments";
   const file = req.files.file;
   const form = new FormData();
@@ -81,6 +82,7 @@ app.post("/api/postTransient", async (req, res) => {
   form.append("Mime-Type", file.mimetype);
   form.append("File", file.data);
 
+  // Call POST to Adobe Sign
   axios({
     method: "post",
     url: path,

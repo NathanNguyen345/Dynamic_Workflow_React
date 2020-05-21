@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import axios from "axios";
-import { JsonConext } from "./WorkflowForm";
+import { JsonConext } from "./WorkflowSelector";
 
 function Files({ value, fileId }) {
   const targetRef = useRef(null);
   const jsonContext = useContext(JsonConext);
 
+  // Update reducer if there's already a library key
   useEffect(() => {
     if ("workflowLibraryDocumentSelectorList" in value) {
       jsonContext.jsonDispatch({
@@ -48,15 +49,6 @@ function Files({ value, fileId }) {
 
   const checkForLibraryDocument = () => {
     if ("workflowLibraryDocumentSelectorList" in value) {
-      jsonContext.jsonDispatch({
-        type: "fileInfos",
-        value: {
-          label: value.label,
-          libraryDocumentId:
-            value.workflowLibraryDocumentSelectorList[0].workflowLibDoc,
-        },
-        id: fileId,
-      });
       return <h4>{value.workflowLibraryDocumentSelectorList[0].label}</h4>;
     } else {
       return (

@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
-import { JsonConext } from "./WorkflowForm";
+import { JsonConext } from "./WorkflowSelector";
 
 function Fields({ value, fieldId }) {
-  const [userInput, setUserInput] = useState("");
   const emailRef = useRef(null);
   const jsonContext = useContext(JsonConext);
 
@@ -10,12 +9,10 @@ function Fields({ value, fieldId }) {
   // Should be able to strip this out and back it abstract
   useEffect(() => {
     emailRef.current.defaultValue = value.defaultValue;
-    setUserInput(value.defaultValue);
   }, [value]);
 
   // Handle field name change
   const handleEmailChange = (e) => {
-    setUserInput(e.target.value);
     jsonContext.jsonDispatch({
       type: "mergeFieldInfo",
       value: e.target.value,
