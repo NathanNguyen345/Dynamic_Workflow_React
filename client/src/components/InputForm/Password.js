@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import { JsonConext, ResetContext } from "../WorkflowSelector/WorkflowSelector";
+import classes from "./InputForm.module.css";
 
 function Password({ value }) {
   const [password, setPassword] = useState("");
@@ -36,7 +37,6 @@ function Password({ value }) {
   }, [resetReducer.resetState]);
 
   // Use effect to handle password change and display valid password
-  // Need to check for required
   // Endless render when we add jsonContext as dependency
   useEffect(() => {
     if (password === confirmedPassword) {
@@ -60,21 +60,23 @@ function Password({ value }) {
   const showToggle = () => {
     if (toggleView) {
       return (
-        <div>
+        <>
           <input
+            className={classes.user_input}
             type={showPassword ? "text" : "password"}
             onChange={passwordHandler1}
           ></input>
           <input
+            className={classes.user_input}
             type={showPassword ? "text" : "password"}
             onChange={passwordHandler2}
           ></input>
-          <h3 hidden={validPassword ? true : false}>
+          <h3 className={classes.error} hidden={validPassword ? true : false}>
             Password Requirement Not Met
           </h3>
           <input type="checkbox" onChange={showPasswordHandler}></input>
-          <label>Show Passowrd</label>
-        </div>
+          <label className={classes.option_label}>Show Password</label>
+        </>
       );
     }
   };
@@ -100,15 +102,15 @@ function Password({ value }) {
   };
 
   return (
-    <div>
+    <React.Fragment>
       <input
         type="checkbox"
         ref={requiredRef}
         onChange={checkboxHandler}
       ></input>
-      <h3>Password Require</h3>
+      <label className={classes.option_label}>Password Required</label>
       {showToggle()}
-    </div>
+    </React.Fragment>
   );
 }
 

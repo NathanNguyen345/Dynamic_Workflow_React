@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect, useRef } from "react";
 import { ResetContext } from "../WorkflowSelector/WorkflowSelector";
+import classes from "./InputForm.module.css";
 
 function Reminders() {
   const [required, setRequired] = useState(false);
@@ -16,7 +17,7 @@ function Reminders() {
     if (required) {
       return (
         <div>
-          <select>
+          <select className={classes.user_input}>
             <option value="DAILY_UNTIL_SIGNED">Every Day</option>
             <option value="WEEKLY_UNTIL_SIGNED">Every Week</option>
             <option value="WEEKDAILY_UNTIL_SIGNED">Every Business Day</option>
@@ -41,15 +42,15 @@ function Reminders() {
   };
 
   return (
-    <div>
+    <React.Fragment>
       <input
         type="checkbox"
         onChange={checkboxHandler}
         ref={checkboxRef}
       ></input>
-      <label>Set Reminders</label>
+      <label className={classes.option_label}>Set Reminders</label>
       {toggleView()}
-    </div>
+    </React.Fragment>
   );
 }
 

@@ -1,6 +1,7 @@
 import React, { useState, useRef, useReducer } from "react";
 import axios from "axios";
 import WorkflowForm from "../WorkflowForm/WorkflowForm";
+import classes from "./WorkflowSelector.module.css";
 
 export const JsonConext = React.createContext();
 export const ResetContext = React.createContext();
@@ -202,24 +203,33 @@ function WorkflowSelector(props) {
       <ResetContext.Provider
         value={{ resetState: resetClicked, resetDispatch: resetDispatch }}
       >
-        <div className="jumbotron">
-          <form>
-            <div className="form-group">
-              <label>Work Flow Selector</label>
-              <select
-                className="form-control"
-                id="workflow-dropdown"
-                ref={selectRef}
-                onChange={handleSelectChange}
+        <div
+          className={`row h-100 justify-content-center align-items-center ${classes.workflow_form_top}`}
+        >
+          <div className={classes.workflow_form_top_wrapper}>
+            <form className={classes.selector_form}>
+              <div className="form-group">
+                <label className={classes.workflow_label}>
+                  Workflow Selector
+                </label>
+                <select
+                  className={`form-control ${classes.dropdown}`}
+                  ref={selectRef}
+                  onChange={handleSelectChange}
+                >
+                  {mapWorkflows}
+                </select>
+              </div>
+              <button
+                className={`btn btn-primary btn-custom ${classes.button}`}
+                type="button"
+                onClick={clickHandler}
               >
-                {mapWorkflows}
-              </select>
-            </div>
-            <button type="button" onClick={clickHandler}>
-              Select
-            </button>
-          </form>
-          <div>{viewForm && <WorkflowForm id={workflowId} />}</div>
+                Select
+              </button>
+            </form>
+          </div>
+          {viewForm && <WorkflowForm id={workflowId} />}
         </div>
       </ResetContext.Provider>
     </JsonConext.Provider>

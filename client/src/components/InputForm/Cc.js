@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useContext } from "react";
 import { JsonConext } from "../WorkflowSelector/WorkflowSelector";
+import classes from "./InputForm.module.css";
 
 function Cc({ value, ccId }) {
   const emailRef = useRef(null);
@@ -25,6 +26,7 @@ function Cc({ value, ccId }) {
       <h3>{value.label}</h3>
       <input
         type="text"
+        className={classes.user_input}
         ref={emailRef}
         onChange={handleEmailChange}
         placeholder="Enter Cc's Email"

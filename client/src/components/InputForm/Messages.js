@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useContext } from "react";
 import { JsonConext } from "../WorkflowSelector/WorkflowSelector";
+import classes from "./InputForm.module.css";
 
 function Messages() {
   const targetRef = useRef(null);
@@ -21,6 +22,7 @@ function Messages() {
     <div>
       <h3>Messages</h3>
       <input
+        className={classes.user_input}
         type="text"
         ref={targetRef}
         placeholder="Please Enter A Message"

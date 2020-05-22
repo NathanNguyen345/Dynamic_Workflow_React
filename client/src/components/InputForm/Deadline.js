@@ -1,5 +1,6 @@
 import React, { useState, useContext, useRef, useEffect } from "react";
 import { JsonConext, ResetContext } from "../WorkflowSelector/WorkflowSelector";
+import classes from "./InputForm.module.css";
 
 function Deadline({ value }) {
   const [required, setRequired] = useState(!value.visible);
@@ -19,6 +20,7 @@ function Deadline({ value }) {
         <div>
           <input
             type="date"
+            className={classes.user_input}
             min={dateLimit(0)}
             max={dateLimit(90)}
             onChange={handleDateChange}
@@ -67,15 +69,15 @@ function Deadline({ value }) {
   };
 
   return (
-    <div>
+    <React.Fragment>
       <input
         type="checkbox"
         onChange={checkboxHandler}
         ref={checkboxRef}
       ></input>
-      <label>Completion Deadline</label>
+      <label className={classes.option_label}>Completion Deadline</label>
       {toggleView()}
-    </div>
+    </React.Fragment>
   );
 }
 

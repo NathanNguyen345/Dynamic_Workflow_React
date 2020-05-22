@@ -1,0 +1,99 @@
+.form_bottom {
+  width: 100%;
+  background-color: white;
+}
+
+.form_bottom_wrapper {
+  padding: 20px 20px 20px 20px;
+  margin: 0 15px 0 15px;
+}
+
+.user_input_form {
+  background-color: white;
+  width: 100%;
+}
+
+.button {
+  width: 100%;
+  background-color: #2175c8;
+  color: white;
+}
+.button:active {
+  background-color: #2175c8;
+  color: white;
+}
+
+.button:hover,
+.button:focus,
+.button:active {
+  background-color: #2175c8;
+  color: white;
+}
+
+.option_wrapper {
+  border: 1px solid #c2c2c2;
+  background-color: #f5f5f5;
+  border-radius: 5px;
+  padding: 15px;
+  text-align: left;
+}
+
+@media only screen and (max-width: 600px) {
+  #workflow_form {
+    width: 100vw;
+  }
+
+  .option_wrapper {
+    margin: 10px 0 10px 0;
+  }
+
+  body,
+  html {
+    height: 0%;
+  }
+}
+
+@media only screen and (min-width: 600px) {
+  #workflow_form {
+    width: 100vw;
+  }
+
+  .option_wrapper {
+    margin: 10px 0 10px 0;
+  }
+
+  body,
+  html {
+    height: 0%;
+  }
+}
+
+@media only screen and (min-width: 798) {
+  #workflow_form {
+    width: 60vw;
+  }
+
+  .option_wrapper {
+    margin-top: 37px;
+  }
+
+  body,
+  html {
+    height: 100%;
+  }
+}
+
+@media only screen and (min-width: 992px) {
+  #workflow_form {
+    width: 60vw;
+  }
+
+  .option_wrapper {
+    margin-top: 37px;
+  }
+
+  body,
+  html {
+    height: 100%;
+  }
+}

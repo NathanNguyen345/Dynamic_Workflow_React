@@ -1,59 +1,91 @@
 import React from "react";
-import Recipients from "../Recipient/Recipients";
-import Cc from "../Cc/Cc";
-import DocumentName from "../DocumentName/DocumentName";
-import Messages from "../Message/Messages";
-import Files from "../Files/Files";
-import Fields from "../Fields/Fields";
-import Password from "../Password/Password";
-import Deadline from "../Deadline/Deadline";
-import Reminders from "../Reminders/Reminders";
+import Recipients from "../InputForm/Recipients";
+import Cc from "../InputForm/Cc";
+import DocumentName from "../InputForm/DocumentName";
+import Messages from "../InputForm/Messages";
+import Files from "../InputForm/Files";
+import Fields from "../InputForm/Fields";
+import Password from "../InputForm/Password";
+import Deadline from "../InputForm/Deadline";
+import Reminders from "../InputForm/Reminders";
+import classes from "./WorkflowForm.module.css";
 
 function WorkflowForm({ id, loaded }) {
   const isLoaded = loaded;
   const visible = Object.keys(id).length > 0;
 
   return (
-    <div>
-      <form id="form-bottom">
-        <h3 id="workflow-description">{id.description}</h3>
-        {visible &&
-          id.recipientsListInfo.map((recipient, index) => (
-            <Recipients
-              key={index}
-              recipientsId={index}
-              value={id.recipientsListInfo[index]}
-            />
-          ))}
-        {visible &&
-          "ccsListInfo" in id &&
-          id.ccsListInfo.map((recipient, index) => (
-            <Cc key={index} ccId={index} value={id.ccsListInfo[index]} />
-          ))}
-        {visible && <DocumentName />}
-        {visible && <Messages />}
-        {visible &&
-          id.fileInfos.map((file, index) => (
-            <Files key={index} fileId={index} value={id.fileInfos[index]} />
-          ))}
-        {visible &&
-          "mergeFieldsInfo" in id &&
-          id.mergeFieldsInfo.map((merge, index) => (
-            <Fields
-              key={index}
-              fieldId={index}
-              value={id.mergeFieldsInfo[index]}
-            />
-          ))}
-        {visible && id.passwordInfo.visible && (
-          <Password value={id.passwordInfo} />
-        )}
-        {visible && "expirationInfo" in id && (
-          <Deadline value={id.expirationInfo} />
-        )}
-        {visible && <Reminders />}
-        {isLoaded && <button type="button">Submit</button>}
-      </form>
+    <div className={classes.form_bottom}>
+      <div className={classes.form_bottom_wrapper}>
+        <form className={classes.user_input_form}>
+          <h3 id="workflow-description">{id.description}</h3>
+          {/* Render Recipient */}
+          {visible &&
+            id.recipientsListInfo.map((recipient, index) => (
+              <Recipients
+                key={index}
+                recipientsId={index}
+                value={id.recipientsListInfo[index]}
+              />
+            ))}
+          {/* Render CCs */}
+          {visible &&
+            "ccsListInfo" in id &&
+            id.ccsListInfo.map((recipient, index) => (
+              <Cc key={index} ccId={index} value={id.ccsListInfo[index]} />
+            ))}
+          <div className="row">
+            <div className="col-lg-7">
+              {/* Render Document Name */}
+              {visible && <DocumentName />}
+              {/* Render Messages */}
+              {visible && <Messages />}
+              {/* Render File Infos */}
+              {visible &&
+                id.fileInfos.map((file, index) => (
+                  <Files
+                    key={index}
+                    fileId={index}
+                    value={id.fileInfos[index]}
+                  />
+                ))}
+              {/* Render Merge Fields */}
+              {visible &&
+                "mergeFieldsInfo" in id &&
+                id.mergeFieldsInfo.map((merge, index) => (
+                  <Fields
+                    key={index}
+                    fieldId={index}
+                    value={id.mergeFieldsInfo[index]}
+                  />
+                ))}
+            </div>
+
+            <div className="col-lg-5">
+              <div className={classes.option_wrapper}>
+                {/* Render Passwords */}
+                {visible && id.passwordInfo.visible && (
+                  <Password value={id.passwordInfo} />
+                )}
+                {/* Render Expiration */}
+                {visible && "expirationInfo" in id && (
+                  <Deadline value={id.expirationInfo} />
+                )}
+                {/* Render Reminders */}
+                {visible && <Reminders />}
+              </div>
+            </div>
+          </div>
+          {visible && (
+            <button
+              className={`btn btn-primary btn-custom ${classes.button}`}
+              type="button"
+            >
+              Submit
+            </button>
+          )}
+        </form>
+      </div>
     </div>
   );
 }

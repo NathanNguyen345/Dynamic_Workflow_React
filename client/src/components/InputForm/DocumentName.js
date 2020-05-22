@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useContext } from "react";
 import { JsonConext } from "../WorkflowSelector/WorkflowSelector";
+import classes from "./InputForm.module.css";
 
 function DocumentName() {
   const targetRef = useRef(null);
@@ -20,7 +21,7 @@ function DocumentName() {
     <div>
       <h3>Document Name</h3>
       <input
-        id="agreement-name"
+        className={classes.user_input}
         type="text"
         placeholder="Please Enter A Document Name"
         ref={targetRef}
