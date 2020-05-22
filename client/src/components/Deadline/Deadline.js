@@ -1,5 +1,5 @@
 import React, { useState, useContext, useRef, useEffect } from "react";
-import { JsonConext, ResetContext } from "./WorkflowSelector";
+import { JsonConext, ResetContext } from "../WorkflowSelector/WorkflowSelector";
 
 function Deadline({ value }) {
   const [required, setRequired] = useState(!value.visible);

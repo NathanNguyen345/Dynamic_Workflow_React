@@ -1,6 +1,6 @@
 import React, { useState, useRef, useReducer } from "react";
 import axios from "axios";
-import WorkflowForm from "./WorkflowForm";
+import WorkflowForm from "../WorkflowForm/WorkflowForm";
 
 export const JsonConext = React.createContext();
 export const ResetContext = React.createContext();
@@ -184,8 +184,6 @@ function WorkflowSelector(props) {
             value: response.data.expirationInfo.defaultValue,
           });
         }
-
-        // console.log(response.data.recipientsListInfo);
       })
       .catch((error) => {
         console.log(error);
@@ -195,7 +193,6 @@ function WorkflowSelector(props) {
       setViewForm(true);
     } else {
       setViewForm(false);
-      // document.getElementById("form-bottom").reset();
       setViewForm(true);
     }
   };

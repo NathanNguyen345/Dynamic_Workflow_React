@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect, useRef } from "react";
-import { ResetContext } from "./WorkflowSelector";
+import { ResetContext } from "../WorkflowSelector/WorkflowSelector";
 
 function Reminders() {
   const [required, setRequired] = useState(false);

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
-import WorkflowSelector from "./components/WorkflowSelector";
+import WorkflowSelector from "./components/WorkflowSelector/WorkflowSelector";
 import axios from "axios";
 
 function App() {

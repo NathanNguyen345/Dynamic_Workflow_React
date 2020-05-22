@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
-import { JsonConext, ResetContext } from "./WorkflowSelector";
+import { JsonConext, ResetContext } from "../WorkflowSelector/WorkflowSelector";
 
 function Password({ value }) {
   const [password, setPassword] = useState("");

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useContext } from "react";
-import { JsonConext } from "./WorkflowSelector";
+import { JsonConext } from "../WorkflowSelector/WorkflowSelector";
 
 function Cc({ value, ccId }) {
   const emailRef = useRef(null);

@@ -1,6 +1,6 @@
 import React, { useRef, useContext } from "react";
 import axios from "axios";
-import { JsonConext } from "./WorkflowSelector";
+import { JsonConext } from "../WorkflowSelector/WorkflowSelector";
 
 function Files({ value, fileId }) {
   const targetRef = useRef(null);
