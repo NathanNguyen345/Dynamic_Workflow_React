@@ -59,13 +59,13 @@ function WorkflowForm({ id, loaded }) {
   };
 
   const renderDeadline = () => {
-    if (isLoaded && "expirationInfo" in id) {
+    if (length && "expirationInfo" in id) {
       return <Deadline value={id.expirationInfo} />;
     }
   };
 
   const renderReminders = () => {
-    if (isLoaded) {
+    if (length) {
       return <Reminders />;
     }
   };

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
-import { JsonConext } from "./WorkflowSelector";
+import { JsonConext, ResetContext } from "./WorkflowSelector";
 
 function Password({ value }) {
   const [password, setPassword] = useState("");
@@ -11,6 +11,7 @@ function Password({ value }) {
   const required = value.required;
 
   const jsonContext = useContext(JsonConext);
+  const resetReducer = useContext(ResetContext);
 
   // Check to see if password is required on render
   useEffect(() => {
@@ -18,11 +19,25 @@ function Password({ value }) {
       requiredRef.current.checked = true;
       requiredRef.current.disabled = true;
       setToggleView(true);
+    } else {
+      requiredRef.current.checked = false;
+      requiredRef.current.disabled = false;
+      setToggleView(false);
     }
   }, [required]);
 
+  // Reset component
+  useEffect(() => {
+    if (!required) {
+      requiredRef.current.checked = false;
+      requiredRef.current.disabled = false;
+      setToggleView(false);
+    }
+  }, [resetReducer.resetState]);
+
   // Use effect to handle password change and display valid password
   // Need to check for required
+  // Endless render when we add jsonContext as dependency
   useEffect(() => {
     if (password === confirmedPassword) {
       setValidPassword(true);
@@ -39,7 +54,7 @@ function Password({ value }) {
         id: "openPassword",
       });
     }
-  }, [password, confirmedPassword, jsonContext]);
+  }, [password, confirmedPassword]);
 
   // Toggle between password view
   const showToggle = () => {

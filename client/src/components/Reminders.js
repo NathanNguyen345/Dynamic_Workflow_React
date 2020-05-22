@@ -1,7 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
+import { ResetContext } from "./WorkflowSelector";
 
 function Reminders() {
   const [required, setRequired] = useState(false);
+  const resetReducer = useContext(ResetContext);
+  const checkboxRef = useRef(null);
+
+  useEffect(() => {
+    setRequired(false);
+    checkboxRef.current.checked = false;
+  }, [resetReducer.resetState]);
 
   // Toggle deadline view
   const toggleView = () => {
@@ -34,7 +42,11 @@ function Reminders() {
 
   return (
     <div>
-      <input type="checkbox" onChange={checkboxHandler}></input>
+      <input
+        type="checkbox"
+        onChange={checkboxHandler}
+        ref={checkboxRef}
+      ></input>
       <label>Set Reminders</label>
       {toggleView()}
     </div>
