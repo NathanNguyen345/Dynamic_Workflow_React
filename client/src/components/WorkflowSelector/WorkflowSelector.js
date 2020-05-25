@@ -103,10 +103,20 @@ function WorkflowSelector(props) {
           value: response.data.messageInfo.defaultValue,
         });
 
+        // Need to readjust json
         response.data.recipientsListInfo.map((recipient, index) => {
+          const email = {
+            email: response.data.recipientsListInfo[index].defaultValue,
+          };
+
+          const userInfo = {
+            name: response.data.recipientsListInfo[index].name,
+            recipients: [email],
+          };
+
           dispatch({
             type: "recipientsListInfo",
-            value: response.data.recipientsListInfo[index].defaultValue,
+            value: userInfo,
             id: index,
           });
         });
@@ -132,7 +142,7 @@ function WorkflowSelector(props) {
 
           if ("workflowLibraryDocumentSelectorList" in file) {
             fileData = {
-              name: file.label,
+              name: file.name,
               workflowLibraryDocumentId:
                 file.workflowLibraryDocumentSelectorList[0].workflowLibDoc,
             };
@@ -229,7 +239,7 @@ function WorkflowSelector(props) {
               </button>
             </form>
           </div>
-          {viewForm && <WorkflowForm id={workflowId} />}
+          {viewForm && <WorkflowForm id={workflowId} agreementId={id} />}
         </div>
       </ResetContext.Provider>
     </JsonConext.Provider>

@@ -11,14 +11,25 @@ function Recipients({ value, recipientsId }) {
 
   // On mount assign all values to recipients
   useEffect(() => {
-    emailRef.current.defaultValue = reduceState;
+    if (reduceState != null) {
+      emailRef.current.defaultValue = reduceState.recipients[0].email;
+    }
   }, [reduceState]);
 
   // Handle email change and dispatch to reducer
   const handleEmailChange = (e) => {
+    const email = {
+      email: e.target.value,
+    };
+
+    const userInfo = {
+      name: reduceState.name,
+      recipients: [email],
+    };
+
     jsonContext.jsonDispatch({
       type: "recipientsListInfo",
-      value: e.target.value,
+      value: userInfo,
       id: recipientsId,
     });
   };
