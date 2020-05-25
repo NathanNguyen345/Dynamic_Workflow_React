@@ -11,6 +11,9 @@ const path = require("path");
 const FormData = require("form-data");
 const fileUpload = require("express-fileupload");
 
+// Body-Parser
+const bodyParser = require("body-parser");
+
 // YAML & Configuration
 const yaml = require("js-yaml");
 const config = yaml.safeLoad(
@@ -28,6 +31,12 @@ var headers = {
 };
 
 app.use(fileUpload());
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+  })
+);
+app.use(bodyParser.json());
 
 // GET /workflows
 app.get("/api/getWorkflows", (req, res) => {
@@ -60,12 +69,21 @@ app.get("/api/getLibraryDocuments/:id", (req, res) => {
 // POST /workflows/{workflowId}/agreements
 app.post("/api/postAgreement/:id", (req, res) => {
   const path = url + "/workflows/" + req.params.id + "/agreements";
-  axios
-    .post(path, { headers: headers })
-    .then((response) => res.status(200).send(response.data))
-    .catch((error) => console.log(error));
 
-  res.json(data);
+  const jsonData = {
+    documentCreationInfo: req.body,
+  };
+
+  axios
+    .post(path, jsonData, {
+      headers: headers,
+    })
+    .then((response) => {
+      res.status(200).send("Agreement Sent");
+    })
+    .catch((error) => {
+      res.status(error.response.status).send(error.response.data);
+    });
 });
 
 // POST /transientDocuments

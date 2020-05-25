@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import Recipients from "../InputForm/Recipients";
 import Cc from "../InputForm/Cc";
 import DocumentName from "../InputForm/DocumentName";
@@ -9,10 +9,23 @@ import Password from "../InputForm/Password";
 import Deadline from "../InputForm/Deadline";
 import Reminders from "../InputForm/Reminders";
 import classes from "./WorkflowForm.module.css";
+import { JsonConext } from "../WorkflowSelector/WorkflowSelector";
+import axios from "axios";
 
-function WorkflowForm({ id, loaded }) {
-  const isLoaded = loaded;
+function WorkflowForm({ id, agreementId }) {
   const visible = Object.keys(id).length > 0;
+  const jsonConext = useContext(JsonConext);
+
+  const submitFormHandle = () => {
+    axios
+      .post(`/api/postAgreement/${agreementId}`, jsonConext.jsonState)
+      .then((response) => {
+        alert(response.data);
+      })
+      .catch((error) => {
+        alert(error.data);
+      });
+  };
 
   return (
     <div className={classes.form_bottom}>
@@ -80,6 +93,7 @@ function WorkflowForm({ id, loaded }) {
             <button
               className={`btn btn-primary btn-custom ${classes.button}`}
               type="button"
+              onClick={submitFormHandle}
             >
               Submit
             </button>
