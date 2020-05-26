@@ -103,13 +103,15 @@ function Password({ value }) {
 
   return (
     <React.Fragment>
-      <input
-        type="checkbox"
-        ref={requiredRef}
-        onChange={checkboxHandler}
-      ></input>
-      <label className={classes.option_label}>Password Required</label>
-      {showToggle()}
+      <div>
+        <input
+          type="checkbox"
+          ref={requiredRef}
+          onChange={checkboxHandler}
+        ></input>
+        <label className={classes.option_label}>Password Required</label>
+        {showToggle()}
+      </div>
     </React.Fragment>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import Recipients from "../InputForm/Recipients";
 import Cc from "../InputForm/Cc";
 import DocumentName from "../InputForm/DocumentName";
@@ -21,9 +21,11 @@ function WorkflowForm({ id, agreementId }) {
       .post(`/api/postAgreement/${agreementId}`, jsonConext.jsonState)
       .then((response) => {
         alert(response.data);
+        window.location.reload();
       })
       .catch((error) => {
         alert(error.data);
+        window.location.reload();
       });
   };
 
@@ -47,7 +49,7 @@ function WorkflowForm({ id, agreementId }) {
             id.ccsListInfo.map((recipient, index) => (
               <Cc key={index} ccId={index} value={id.ccsListInfo[index]} />
             ))}
-          <div className="row">
+          <div className={`row ${classes.bottom_row}`}>
             <div className="col-lg-7">
               {/* Render Document Name */}
               {visible && <DocumentName />}

@@ -3,13 +3,12 @@ import { JsonConext, ResetContext } from "../WorkflowSelector/WorkflowSelector";
 import classes from "./InputForm.module.css";
 
 function Deadline({ value }) {
-  const [required, setRequired] = useState(!value.visible);
+  const [required, setRequired] = useState(value.visible ? true : false);
   const jsonContext = useContext(JsonConext);
   const resetReducer = useContext(ResetContext);
   const checkboxRef = useRef(null);
 
   useEffect(() => {
-    setRequired(!value.visible);
     checkboxRef.current.checked = false;
   }, [resetReducer.resetState]);
 
@@ -70,13 +69,15 @@ function Deadline({ value }) {
 
   return (
     <React.Fragment>
-      <input
-        type="checkbox"
-        onChange={checkboxHandler}
-        ref={checkboxRef}
-      ></input>
-      <label className={classes.option_label}>Completion Deadline</label>
-      {toggleView()}
+      <div>
+        <input
+          type="checkbox"
+          onChange={checkboxHandler}
+          ref={checkboxRef}
+        ></input>
+        <label className={classes.option_label}>Completion Deadline</label>
+        {toggleView()}
+      </div>
     </React.Fragment>
   );
 }

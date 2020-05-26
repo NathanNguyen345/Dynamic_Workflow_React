@@ -43,13 +43,15 @@ function Reminders() {
 
   return (
     <React.Fragment>
-      <input
-        type="checkbox"
-        onChange={checkboxHandler}
-        ref={checkboxRef}
-      ></input>
-      <label className={classes.option_label}>Set Reminders</label>
-      {toggleView()}
+      <div>
+        <input
+          type="checkbox"
+          onChange={checkboxHandler}
+          ref={checkboxRef}
+        ></input>
+        <label className={classes.option_label}>Set Reminders</label>
+        {toggleView()}
+      </div>
     </React.Fragment>
   );
 }
