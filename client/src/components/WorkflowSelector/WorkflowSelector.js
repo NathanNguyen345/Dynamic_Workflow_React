@@ -187,11 +187,21 @@ function WorkflowSelector(props) {
             value: response.data.passwordInfo.defaultValue,
             id: "openPassword",
           });
+          dispatch({
+            type: "securityOptions",
+            value: true,
+            id: "protectOpen",
+          });
         } else {
           dispatch({
             type: "securityOptions",
             value: "",
             id: "openPassword",
+          });
+          dispatch({
+            type: "securityOptions",
+            value: false,
+            id: "protectOpen",
           });
         }
 

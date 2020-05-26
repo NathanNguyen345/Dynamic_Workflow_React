@@ -9,7 +9,6 @@ function Recipients({ value, recipientsId }) {
   const jsonContext = useContext(JsonConext);
   const reduceState = jsonContext.jsonState["recipientsListInfo"][recipientsId];
 
-  // On mount assign all values to recipients
   useEffect(() => {
     if (reduceState != null) {
       emailRef.current.defaultValue = reduceState.recipients[0].email;
@@ -41,6 +40,7 @@ function Recipients({ value, recipientsId }) {
         type="text"
         className={classes.user_input}
         ref={emailRef}
+        disabled={value.editable}
         onChange={handleEmailChange}
         placeholder="Enter Recipient's Email"
       ></input>
