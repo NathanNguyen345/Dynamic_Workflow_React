@@ -8,12 +8,17 @@
   margin: 0 15px 0 15px;
 }
 
+.bottom_row {
+  margin-top: 10px;
+}
+
 .user_input_form {
   background-color: white;
   width: 100%;
 }
 
 .button {
+  margin-top: 20px;
   width: 100%;
   background-color: #2175c8;
   color: white;

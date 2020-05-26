@@ -88,6 +88,12 @@ function WorkflowSelector(props) {
   const clickHandler = () => {
     resetDispatch("reset");
 
+    if (viewForm === false) {
+      setViewForm(true);
+    } else {
+      setViewForm(false);
+    }
+
     axios
       .get(`/api/getWorkflows/${id}`)
       .then((response) => {
@@ -195,17 +201,12 @@ function WorkflowSelector(props) {
             value: response.data.expirationInfo.defaultValue,
           });
         }
+
+        setViewForm(true);
       })
       .catch((error) => {
         console.log(error);
       });
-
-    if (viewForm === false) {
-      setViewForm(true);
-    } else {
-      setViewForm(false);
-      setViewForm(true);
-    }
   };
 
   return (
@@ -213,33 +214,33 @@ function WorkflowSelector(props) {
       <ResetContext.Provider
         value={{ resetState: resetClicked, resetDispatch: resetDispatch }}
       >
-        <div
-          className={`row h-100 justify-content-center align-items-center ${classes.workflow_form_top}`}
-        >
-          <div className={classes.workflow_form_top_wrapper}>
-            <form className={classes.selector_form}>
-              <div className="form-group">
-                <label className={classes.workflow_label}>
-                  Workflow Selector
-                </label>
-                <select
-                  className={`form-control ${classes.dropdown}`}
-                  ref={selectRef}
-                  onChange={handleSelectChange}
+        <div className="row h-100 justify-content-center align-items-center ">
+          <div className={`${classes.workflow_form_top}`}>
+            <div className={classes.workflow_form_top_wrapper}>
+              <form className={classes.selector_form}>
+                <div className="form-group">
+                  <label className={classes.workflow_label}>
+                    Workflow Selector
+                  </label>
+                  <select
+                    className={`form-control ${classes.dropdown}`}
+                    ref={selectRef}
+                    onChange={handleSelectChange}
+                  >
+                    {mapWorkflows}
+                  </select>
+                </div>
+                <button
+                  className={`btn btn-primary btn-custom ${classes.button}`}
+                  type="button"
+                  onClick={clickHandler}
                 >
-                  {mapWorkflows}
-                </select>
-              </div>
-              <button
-                className={`btn btn-primary btn-custom ${classes.button}`}
-                type="button"
-                onClick={clickHandler}
-              >
-                Select
-              </button>
-            </form>
+                  Select
+                </button>
+              </form>
+            </div>
+            {viewForm && <WorkflowForm id={workflowId} agreementId={id} />}
           </div>
-          {viewForm && <WorkflowForm id={workflowId} agreementId={id} />}
         </div>
       </ResetContext.Provider>
     </JsonConext.Provider>
